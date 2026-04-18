@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Quincy — Senior Frontend Engineer",
+  title: "Quincy Hutchison — Senior Frontend Engineer",
   description:
-    "Senior frontend engineer building fintech and consumer products that feel good to use. Based in Accra, open to remote roles.",
+    "Senior frontend engineer with 7+ years building fintech and consumer products. React, Next.js, TypeScript. Based in Accra, open to remote roles.",
 };
 
 export default function RootLayout({
