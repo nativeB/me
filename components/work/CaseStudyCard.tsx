@@ -48,13 +48,19 @@ export default function CaseStudyCard({ project }: Props) {
         viewport={{ once: true, margin: "-100px" }}
         className="w-full lg:w-1/2"
       >
-        <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden">
+        <div
+          className="relative w-full rounded-2xl overflow-hidden"
+          style={{ aspectRatio: project.aspectRatio ?? "4/3" }}
+        >
           {project.imageSrc ? (
             <Image
               src={project.imageSrc}
               alt={project.imageAlt}
               fill
-              className="object-cover"
+              style={{
+                objectFit: project.objectFit ?? "cover",
+                objectPosition: project.objectPosition ?? "center",
+              }}
             />
           ) : (
             <div
@@ -99,7 +105,7 @@ export default function CaseStudyCard({ project }: Props) {
         {project.link && (
           <div className="mt-2">
             <Button variant="outline" asChild>
-              <a href={project.link} target="_blank" rel="noopener noreferrer">
+              <a href={project.link} target="_blank" rel="noopener noreferrer nofollow">
                 View live ↗
               </a>
             </Button>
