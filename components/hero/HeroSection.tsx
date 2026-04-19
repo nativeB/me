@@ -34,7 +34,7 @@ export default function HeroSection() {
           className="mt-6 text-lg sm:text-xl leading-8 text-[#888] max-w-xl mx-auto"
         >
           Senior frontend engineer. I build fintech and consumer products that
-          feel good to use. Currently at iKhokha, based in Accra.
+          feel good to use. Currently at iKhokha. Based in Accra.
         </motion.p>
       </div>
 
