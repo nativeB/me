@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 const links = [
-  { label: "Email", href: "mailto:your@email.com" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/your-handle" },
-  { label: "GitHub", href: "https://github.com/your-handle" },
+  { label: "Email", href: "mailto:qhutchison8@gmail.com" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/qhutchison" },
+  { label: "GitHub", href: "https://github.com/nativeB" },
 ];
 
 export default function CTASection() {
