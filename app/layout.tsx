@@ -12,10 +12,40 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const baseUrl = "https://me-nativeb.vercel.app";
+
 export const metadata: Metadata = {
   title: "Quincy Hutchison — Senior Frontend Engineer",
   description:
     "Senior frontend engineer with 7+ years building fintech and consumer products. React, Next.js, TypeScript. Based in Accra, open to remote roles.",
+  metadataBase: new URL(baseUrl),
+  openGraph: {
+    title: "Quincy Hutchison — Senior Frontend Engineer",
+    description:
+      "Senior frontend engineer with 7+ years building fintech and consumer products. React, Next.js, TypeScript. Based in Accra, open to remote roles.",
+    url: baseUrl,
+    siteName: "Quincy Hutchison",
+    images: [
+      {
+        url: "/images/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Quincy Hutchison — Senior Frontend Engineer",
+      },
+    ],
+    type: "website",
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Quincy Hutchison — Senior Frontend Engineer",
+    description:
+      "Senior frontend engineer with 7+ years building fintech and consumer products. React, Next.js, TypeScript. Based in Accra, open to remote roles.",
+    images: ["/images/og.png"],
+  },
 };
 
 export default function RootLayout({
