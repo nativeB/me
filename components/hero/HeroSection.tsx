@@ -27,9 +27,9 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: 0.7,
-            ease: [0.22, 1, 0.36, 1],
-            delay: 0.9,
+            duration: 0.9,
+            ease: [0.16, 1, 0.3, 1],
+            delay: 2.2,
           }}
           className="mt-6 text-lg sm:text-xl leading-8 text-[#888] max-w-xl mx-auto"
         >
@@ -42,7 +42,7 @@ export default function HeroSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.6 }}
+        transition={{ delay: 3.0, duration: 0.8 }}
         className="absolute bottom-8 flex flex-col items-center gap-2 text-[#444]"
         aria-hidden
       >

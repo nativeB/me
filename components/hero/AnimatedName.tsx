@@ -6,20 +6,21 @@ const containerVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.04,
-      delayChildren: 0.2,
+      staggerChildren: 0.08,
+      delayChildren: 0.6,
     },
   },
 };
 
 const letterVariants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 40, filter: "blur(8px)" },
   visible: {
     opacity: 1,
     y: 0,
+    filter: "blur(0px)",
     transition: {
-      duration: 0.5,
-      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+      duration: 1.1,
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
     },
   },
 };
