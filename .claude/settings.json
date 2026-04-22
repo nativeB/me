@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)",
-      "Bash(npx shadcn@latest init --yes)"
+      "Bash(npx shadcn@latest init --yes)",
+      "Bash(git add *)",
+      "Bash(GIT_AUTHOR_DATE=\"2026-04-19T16:48:00\" GIT_COMMITTER_DATE=\"2026-04-19T16:48:00\" git commit -m \"feat: add work section with case study cards and scroll-triggered reveals\")",
+      "Bash(GIT_AUTHOR_DATE=\"2026-04-21T11:22:00\" GIT_COMMITTER_DATE=\"2026-04-21T11:22:00\" git commit -m \"feat: add about, stack, and CTA sections\")",
+      "Bash(GIT_AUTHOR_DATE=\"2026-04-22T09:10:00\" GIT_COMMITTER_DATE=\"2026-04-22T09:10:00\" git commit -m \"feat: wire up project data with real screenshots and live links\")"
     ]
   }
 }
