@@ -38,7 +38,15 @@ export const projects: Project[] = [
     tagline: "Senior frontend work on a South African fintech platform.",
     description:
       "Led the migration of the checkout backbone from Shopify to an internal system powered by Swell, reducing average time-to-conversion from 19.1 minutes to ~4.3 minutes — a 75% improvement. Built a dynamic popup management system and debugging tooling that significantly reduced troubleshooting time across the decision pipeline.",
-    stack: ["React", "Next.js", "TypeScript", "PostgreSQL", "Swell", "Framer Motion", "Storybook"],
+    stack: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "PostgreSQL",
+      "Swell",
+      "Framer Motion",
+      "Storybook",
+    ],
     imageAlt: "iKhokha fintech platform",
     imageSrc: "/images/ikhokha.png",
     gradientFrom: "#001a33",
@@ -70,7 +78,15 @@ export const projects: Project[] = [
     tagline: "Full site revamp, agent dashboard, and custom insurance tooling.",
     description:
       "One of the key engineers on a full revamp of the Atlas General Agency platform at Moblers. Built a new agent dashboard from scratch, custom insurance quote flows, and bespoke tooling across the full stack. Complex domain, high-stakes UX.",
-    stack: ["React", "Next.js", "Electron", "Node.js", "Nest.js"],
+    stack: [
+      "Vue.js",
+      "Node.js",
+      "php",
+      "PostgreSQL",
+      "AWS",
+      "Typescript",
+      "Tailwind",
+    ],
     imageAlt: "Atlas General Agency website",
     imageSrc: "/images/atlas.png",
     gradientFrom: "#0a0f1a",
