@@ -13,6 +13,7 @@ export type Project = {
   objectPosition?: string;
   objectFit?: "cover" | "contain";
   aspectRatio?: string;
+  featured?: boolean;
 };
 
 export const projects: Project[] = [
@@ -39,6 +40,7 @@ export const projects: Project[] = [
     imagePosition: "left",
     objectFit: "contain",
     objectPosition: "center",
+    featured: true,
   },
   {
     id: "wevibe",
@@ -51,10 +53,28 @@ export const projects: Project[] = [
     imageSrc: "/images/wevibe.png",
     gradientFrom: "#1a0a2e",
     gradientTo: "#3b1fa8",
-    link: "https://apps.apple.com/app/wevibe",
+    link: "https://apps.apple.com/us/app/wevibe/id6756529528",
     imagePosition: "right",
     objectFit: "contain",
     objectPosition: "center",
+    featured: true,
+  },
+  {
+    id: "pagebreak",
+    title: "Pagebreak",
+    tagline: "An autonomous AI news site that finds trends and writes daily.",
+    description:
+      "A fully autonomous newsroom — no human in the loop. Scans for emerging trends across topics, writes articles daily, and publishes on its own. Built end-to-end: agent orchestration, content pipeline, publishing, and the reader-facing site.",
+    stack: ["Next.js", "TypeScript", "Anthropic", "Node.js", "PostgreSQL"],
+    imageAlt: "Pagebreak autonomous news site",
+    imageSrc: "/images/pagebreak.png",
+    gradientFrom: "#0a0a0a",
+    gradientTo: "#1a1a1a",
+    link: "https://www.pagebreak.co/",
+    imagePosition: "left",
+    objectFit: "contain",
+    objectPosition: "center",
+    featured: true,
   },
   {
     id: "scriptor",
@@ -68,9 +88,27 @@ export const projects: Project[] = [
     gradientFrom: "#0d0d1a",
     gradientTo: "#1a1a3e",
     link: "https://scriptor-g157.vercel.app/",
+    imagePosition: "right",
+    objectFit: "contain",
+    objectPosition: "center",
+    featured: true,
+  },
+  {
+    id: "duel-of-names",
+    title: "Duel of Names",
+    tagline: "An audible AI game built in 24 hours for a hackathon.",
+    description:
+      "Two beings face each other, each declaring what they become — until one reaches a name the other cannot answer. Three Claude Sonnet calls per turn (opponent, judge, fading coach), streaming TTS via ElevenLabs, five voices, three difficulty modes. The judge produces real literary narrations; the duel must climb to earn its endings.",
+    stack: ["React", "TypeScript", "Anthropic", "ElevenLabs", "Replit"],
+    imageAlt: "Duel of Names game interface",
+    imageSrc: "/images/duel-of-names.png",
+    gradientFrom: "#1a0a0a",
+    gradientTo: "#3a1a1a",
+    link: "https://duel-of-names.replit.app/",
     imagePosition: "left",
     objectFit: "contain",
     objectPosition: "center",
+    featured: true,
   },
   {
     id: "atlas",
@@ -112,3 +150,5 @@ export const projects: Project[] = [
     aspectRatio: "3/4",
   },
 ];
+
+export const featuredProjects = projects.filter((p) => p.featured);
