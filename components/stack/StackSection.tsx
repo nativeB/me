@@ -1,52 +1,31 @@
-"use client";
-
-import { motion } from "framer-motion";
-import StackItem from "./StackItem";
-
-const stack = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Node.js",
-  "Vue.js",
-  "Electron",
-  "Framer Motion",
-  "PostgreSQL",
-  "MongoDB",
-  "WebSockets",
-  "AWS",
-  "GCP",
-  "Storybook",
-  "Tailwind",
-  "Figma",
-  "Git",
-];
+import { stackGroups } from "@/data/site";
 
 export default function StackSection() {
   return (
-    <section id="stack" className="py-32 px-6">
-      <div className="max-w-4xl mx-auto">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-sm uppercase tracking-widest text-[#444] mb-10"
-        >
-          Tools I reach for.
-        </motion.p>
+    <section
+      id="stack"
+      aria-labelledby="stack-heading"
+      className="mx-auto max-w-[1200px] px-4 pb-24 sm:px-6 md:pb-32 lg:px-8"
+    >
+      <div className="rounded-[20px] bg-surface p-6 sm:p-10 lg:p-14">
+        <h2 id="stack-heading" className="reveal text-h3 font-medium">
+          Tools I reach for
+        </h2>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-          className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-3"
-        >
-          {stack.map((name) => (
-            <StackItem key={name} name={name} />
+        <div className="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr] lg:gap-14">
+          {stackGroups.map((group) => (
+            <div key={group.label} className="reveal-late">
+              <h3 className="font-mono text-meta text-subtle">{group.label}</h3>
+              <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+                {group.items.map((item) => (
+                  <li key={item} className="text-body text-fg">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

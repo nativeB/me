@@ -1,79 +1,59 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-
-const links = [
-  { label: "Email", href: "mailto:qhutchison8@gmail.com" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/qhutchison" },
-  { label: "GitHub", href: "https://github.com/nativeB" },
-];
+import { ArrowUpRight } from "@phosphor-icons/react/ssr";
+import Magnetic from "@/components/motion/Magnetic";
+import { site, socialLinks } from "@/data/site";
+import CopyEmail from "./CopyEmail";
 
 export default function CTASection() {
   return (
     <section
       id="contact"
-      className="min-h-screen flex flex-col items-center justify-center px-6 text-center"
+      aria-labelledby="contact-heading"
+      className="scroll-mt-16 border-t border-line"
     >
-      <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="font-semibold tracking-tight leading-tight"
-        style={{ fontSize: "clamp(32px, 5vw, 72px)" }}
-      >
-        Looking for a senior
-        <br />
-        frontend engineer?
-      </motion.h2>
+      <div className="mx-auto max-w-[1200px] px-4 py-24 sm:px-6 md:py-36 lg:px-8">
+        <h2
+          id="contact-heading"
+          className="reveal max-w-[16ch] text-h2 font-semibold"
+        >
+          Looking for a senior frontend engineer?
+        </h2>
+        <p className="reveal-late mt-6 max-w-[46ch] text-lead text-muted">
+          Open to remote roles, contract or full-time, with EU and US Eastern
+          time overlap from Accra.
+        </p>
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-        className="mt-6 text-lg text-[#666] max-w-md"
-      >
-        Open to remote roles, contract or full-time. EU/EST timezone overlap
-        from Accra.
-      </motion.p>
+        <div className="reveal-late mt-14 flex flex-col gap-8">
+          <Magnetic strength={0.12} className="self-start">
+            <a
+              href={`mailto:${site.email}`}
+              className="group inline-block break-all text-[clamp(1.5rem,0.9rem+3.2vw,3.25rem)] font-medium leading-[1.1] tracking-[-0.03em] text-fg"
+            >
+              <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_2px] bg-left-bottom bg-no-repeat pb-1 transition-[background-size] duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:bg-[length:100%_2px] group-focus-visible:bg-[length:100%_2px]">
+                {site.email}
+              </span>
+            </a>
+          </Magnetic>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
-        className="mt-12 flex flex-col sm:flex-row gap-4"
-      >
-        {links.map(({ label, href }) => (
-          <motion.div
-            key={label}
-            whileHover={{
-              scale: 1.04,
-              boxShadow: "0 0 30px rgba(124, 58, 237, 0.25)",
-            }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="rounded-full"
-          >
-            <Button variant="outline" asChild>
-              <a href={href} target="_blank" rel="noopener noreferrer">
+          <div className="flex flex-wrap items-center gap-3">
+            <CopyEmail email={site.email} />
+            {socialLinks.map(({ label, href }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nudge-on-hover inline-flex h-11 items-center gap-1.5 rounded-full px-4 text-small font-medium text-muted transition-[color,background-color,transform] duration-200 ease-out hover:bg-surface hover:text-fg active:scale-[0.97]"
+              >
                 {label}
+                <ArrowUpRight size={14} aria-hidden className="nudge-target" />
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>
-            </Button>
-          </motion.div>
-        ))}
-      </motion.div>
+            ))}
+          </div>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-        className="mt-8 text-sm text-[#444]"
-      >
-        Reply within 24 hours.
-      </motion.p>
+          <p className="text-small text-subtle">Replies within 24 hours.</p>
+        </div>
+      </div>
     </section>
   );
 }

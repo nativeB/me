@@ -1,26 +1,341 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens.
+ * One neutral family (zinc-leaning, cool) plus a single signal-orange accent.
+ * Light is the default; dark applies from the OS preference unless the visitor
+ * picked a theme (stored as data-theme on <html>).
+ */
+:root {
+  color-scheme: light;
+  --bg: #fafafa;
+  --surface: #f0f0f1;
+  --surface-strong: #e6e6e8;
+  --fg: #18181b;
+  --muted: #52525b;
+  --subtle: #67676f;
+  --line: rgb(24 24 27 / 0.1);
+  --line-strong: rgb(24 24 27 / 0.18);
+  --accent: #c2410c;
+  --accent-soft: rgb(194 65 12 / 0.12);
+  --shadow: 220 10% 20%;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0b0b0c;
+    --surface: #151517;
+    --surface-strong: #1e1e21;
+    --fg: #ededee;
+    --muted: #a1a1aa;
+    --subtle: #8e8e97;
+    --line: rgb(255 255 255 / 0.09);
+    --line-strong: rgb(255 255 255 / 0.16);
+    --accent: #ff8a4c;
+    --accent-soft: rgb(255 138 76 / 0.14);
+    --shadow: 0 0% 0%;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b0b0c;
+  --surface: #151517;
+  --surface-strong: #1e1e21;
+  --fg: #ededee;
+  --muted: #a1a1aa;
+  --subtle: #8e8e97;
+  --line: rgb(255 255 255 / 0.09);
+  --line-strong: rgb(255 255 255 / 0.16);
+  --accent: #ff8a4c;
+  --accent-soft: rgb(255 138 76 / 0.14);
+  --shadow: 0 0% 0%;
+}
+
 @theme inline {
-  --color-background: #0a0a0a;
-  --color-foreground: #ededed;
-  --color-muted: #555555;
-  --color-accent: #7c3aed;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Type scale: fluid display sizes, fixed text sizes. Tracking tightens as size grows. */
+  --text-display: clamp(3rem, 1.4rem + 6.4vw, 6.75rem);
+  --text-display--line-height: 0.94;
+  --text-display--letter-spacing: -0.045em;
+  --text-h2: clamp(2.125rem, 1.5rem + 2.6vw, 3.75rem);
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -0.035em;
+  --text-h3: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  --text-h3--line-height: 1.15;
+  --text-h3--letter-spacing: -0.022em;
+  --text-lead: clamp(1.25rem, 1.05rem + 0.9vw, 1.875rem);
+  --text-lead--line-height: 1.32;
+  --text-lead--letter-spacing: -0.018em;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.65;
+  --text-body--letter-spacing: -0.005em;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.6;
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.45;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 html {
-  scroll-behavior: smooth;
-  background: #0a0a0a;
+  background: var(--bg);
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: #0a0a0a;
-  color: #ededed;
-  overflow-x: hidden;
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  overflow-x: clip;
+  text-rendering: optimizeLegibility;
 }
 
-* {
-  box-sizing: border-box;
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------------
+ * Hero entrance. Pure CSS so it starts on first paint, never depends
+ * on hydration, and the content is already in the HTML if CSS is slow.
+ * ------------------------------------------------------------------ */
+
+.hero-line {
+  display: block;
+}
+
+.hero-line > span {
+  display: inline-block;
+}
+
+/*
+ * Hero entrances never start at opacity 0: text and images are painted from
+ * the first frame (so they count as rendered content immediately) and resolve
+ * from a soft blur and a small offset instead.
+ */
+@keyframes rise-in {
+  from {
+    transform: translateY(0.32em);
+    filter: blur(14px);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    transform: translateY(12px);
+    filter: blur(6px);
+  }
+}
+
+@keyframes deal-in {
+  from {
+    transform: translate3d(0, 64px, 0) rotate(var(--deal-rotate, 0deg)) scale(0.96);
+  }
+}
+
+@keyframes caption-in {
+  from {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translateY(4px);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .enter-line {
+    animation: rise-in 1000ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 90ms + 60ms);
+  }
+
+  .enter-fade {
+    animation: fade-up 800ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 90ms + 60ms);
+  }
+
+  .enter-deal {
+    animation: deal-in 1100ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 70ms + 220ms);
+  }
+
+  .caption-swap {
+    animation: caption-in 260ms var(--ease-out) both;
+  }
+
+  .page-in {
+    animation: page-in 420ms var(--ease-out) both;
+  }
+}
+
+/* Reduced motion: no movement, only a quick, quiet cross-fade where it helps. */
+@media (prefers-reduced-motion: reduce) {
+  .caption-swap,
+  .page-in {
+    animation: fade 180ms ease both;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Scroll-linked reveals. CSS scroll-driven animations run off the main
+ * thread; browsers without support (or with reduced motion) just show
+ * the content, so nothing is ever stuck hidden.
+ * ------------------------------------------------------------------ */
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: translateY(28px) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+
+    .reveal-late {
+      animation: reveal var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 30%;
+    }
+
+    .settle {
+      animation: settle var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+  }
+}
+
+/* Scroll-timeline effects tied to the page scroll position. */
+@keyframes drift {
+  to {
+    transform: translateY(90px) scale(0.96);
+  }
+}
+
+@keyframes material-in {
+  from {
+    opacity: 0;
+    border-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .hero-drift {
+      animation: drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 700px;
+    }
+  }
+}
+
+/* The nav's frosted material fades in once content scrolls beneath it.
+   Without scroll-timeline support it is simply always present. */
+@supports (animation-timeline: scroll()) {
+  .nav-material {
+    animation: material-in linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 24px;
+  }
+}
+
+/* Hover motion only where hover is real. */
+@media (hover: hover) and (pointer: fine) {
+  .lift-on-hover .lift-target {
+    transition: transform 300ms var(--ease-out);
+  }
+
+  .lift-on-hover:hover .lift-target {
+    transform: translateY(-6px);
+  }
+
+  .nudge-on-hover .nudge-target {
+    transition: transform 240ms var(--ease-out);
+  }
+
+  .nudge-on-hover:hover .nudge-target {
+    transform: translate(2px, -2px);
+  }
+
+  .nudge-x-on-hover:hover .nudge-target {
+    transform: translateX(3px);
+  }
+
+  .nudge-back-on-hover:hover .nudge-target {
+    transform: translateX(-3px);
+  }
+}
+
+/* Theme switch: a short cross-fade instead of an abrupt brightness jump. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 260ms;
+  animation-timing-function: ease;
 }
