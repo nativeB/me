@@ -20,6 +20,7 @@ export const about = {
   ],
   facts: [
     { term: "Currently", detail: "Frontend engineer at iKhokha" },
+    { term: "On the side", detail: "Founder, Kente HQ (kentehq.com)" },
     { term: "Based in", detail: "Accra, working remote-first" },
     { term: "Outside work", detail: "Writing a novel" },
   ],
