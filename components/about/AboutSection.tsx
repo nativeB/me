@@ -1,47 +1,43 @@
-"use client";
-
-import { motion } from "framer-motion";
-
-const paragraphs = [
-  "I've been building web products for 7+ years — currently a frontend engineer at iKhokha, a South African fintech platform. My work spans the full stack: React, Next.js, TypeScript on the frontend; Node.js, PostgreSQL, and MongoDB on the backend.",
-  "I care about the details most people skip — the timing of a transition, how an error state reads, whether a form feels fast. The stuff users don't consciously notice but feel instantly. At iKhokha, I cut checkout time-to-conversion by 75% by rethinking the flow, not just the code.",
-  "Outside of work: writing a novel. Based in Accra. Remote-first.",
-];
+import { about } from "@/data/site";
 
 export default function AboutSection() {
   return (
     <section
       id="about"
-      className="py-32 px-6 flex items-center justify-center"
+      aria-labelledby="about-heading"
+      className="scroll-mt-16 border-t border-line"
     >
-      <div className="max-w-130 w-full">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-sm uppercase tracking-widest text-[#444] mb-10"
-        >
+      <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-12 px-4 py-24 sm:px-6 md:py-32 lg:grid-cols-12 lg:gap-10 lg:px-8">
+        <h2 id="about-heading" className="reveal text-h2 font-semibold lg:col-span-4">
           About
-        </motion.h2>
+        </h2>
 
-        <div className="space-y-6">
-          {paragraphs.map((text, i) => (
-            <motion.p
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{
-                duration: 0.6,
-                ease: [0.22, 1, 0.36, 1],
-                delay: i * 0.15,
-              }}
-              className="text-lg leading-8 text-[#888]"
-            >
-              {text}
-            </motion.p>
-          ))}
+        <div className="lg:col-span-8">
+          <p className="reveal max-w-[30ch] text-h3 font-medium text-fg sm:text-lead sm:max-w-[34ch]">
+            {about.lead}
+          </p>
+
+          <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-10">
+            <div className="flex flex-col gap-5">
+              {about.paragraphs.map((text) => (
+                <p key={text.slice(0, 24)} className="reveal-late text-body text-muted">
+                  {text}
+                </p>
+              ))}
+            </div>
+
+            <dl className="reveal-late flex flex-col self-start">
+              {about.facts.map(({ term, detail }) => (
+                <div
+                  key={term}
+                  className="grid grid-cols-[8.5rem_1fr] gap-4 border-t border-line py-4 first:border-t-0 first:pt-0"
+                >
+                  <dt className="font-mono text-meta text-subtle">{term}</dt>
+                  <dd className="text-small text-fg">{detail}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       </div>
     </section>
