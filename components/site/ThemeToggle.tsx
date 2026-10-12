@@ -15,7 +15,7 @@ export default function ThemeToggle() {
   // Drives the icon's half-turn; purely visual feedback that the press landed.
   const [turns, setTurns] = useState(0);
 
-  function toggle() {
+  function toggle(e: React.MouseEvent<HTMLButtonElement>) {
     const next: Theme = resolvedTheme() === "dark" ? "light" : "dark";
     const apply = () => {
       document.documentElement.dataset.theme = next;
@@ -25,13 +25,38 @@ export default function ThemeToggle() {
         // Private mode or blocked storage: the choice just won't persist.
       }
     };
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!reduce && "startViewTransition" in document) {
-      document.startViewTransition(apply);
-    } else {
-      apply();
-    }
     setTurns((t) => t + 1);
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !("startViewTransition" in document)) {
+      apply();
+      return;
+    }
+
+    // The new theme grows out of the toggle as a circle. Keyboard presses have
+    // no pointer position, so they start from the button's centre.
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX || rect.left + rect.width / 2;
+    const y = e.clientY || rect.top + rect.height / 2;
+    const radius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+    const transition = document.startViewTransition(apply);
+    transition.ready
+      .then(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`],
+          },
+          {
+            duration: 700,
+            easing: "cubic-bezier(0.77, 0, 0.175, 1)",
+            pseudoElement: "::view-transition-new(root)",
+          },
+        );
+      })
+      .catch(() => {});
   }
 
   return (
@@ -40,13 +65,13 @@ export default function ThemeToggle() {
       onClick={toggle}
       aria-label="Switch color theme"
       title="Switch color theme"
-      className="grid size-9 place-items-center rounded-full text-muted transition-[color,transform] duration-150 ease-out hover:text-fg active:scale-[0.94]"
+      className="grid size-10 place-items-center rounded-full text-muted transition-[color,background-color,transform] duration-150 ease-out hover:bg-surface hover:text-fg active:scale-[0.94]"
     >
       <CircleHalfTilt
         size={18}
         weight="regular"
         aria-hidden
-        className="transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none"
+        className="transition-transform duration-500 ease-out motion-reduce:transition-none"
         style={{ transform: `rotate(${turns * 180}deg)` }}
       />
     </button>

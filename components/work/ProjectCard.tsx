@@ -31,7 +31,7 @@ export default function ProjectCard({
         wide ? "grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-10" : "flex flex-col gap-6"
       }`}
     >
-      <div className={`reveal ${wide ? "lg:col-span-8" : ""}`}>
+      <div className={`reveal-card ${wide ? "lg:col-span-8" : ""}`}>
         <ProjectPlate
           project={project}
           sizes={sizes}
@@ -46,7 +46,7 @@ export default function ProjectCard({
           wide ? "lg:col-span-4 lg:justify-end lg:pb-2" : ""
         }`}
       >
-        <Heading className="text-h3 font-medium">
+        <Heading className="font-display text-h3 font-bold">
           {project.link ? (
             <a
               href={project.link}

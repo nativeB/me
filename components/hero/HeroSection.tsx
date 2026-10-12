@@ -1,9 +1,8 @@
-import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/ssr";
-import { featuredProjects } from "@/data/projects";
 import { Button } from "@/components/ui/button";
 import Magnetic from "@/components/motion/Magnetic";
-import ProjectDeck from "./ProjectDeck";
+import MoltenField from "@/components/fx/MoltenField";
+import KineticName from "./KineticName";
 
 const i = (n: number) => ({ "--i": n }) as React.CSSProperties;
 
@@ -11,58 +10,57 @@ export default function HeroSection() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="mx-auto grid max-w-[1200px] grid-cols-[minmax(0,1fr)] items-center gap-14 px-4 pb-20 pt-10 sm:px-6 md:pt-16 lg:min-h-[calc(100dvh-4rem)] lg:grid-cols-12 lg:gap-10 lg:px-8 lg:pb-24 lg:pt-8"
+      className="relative isolate flex min-h-svh flex-col overflow-clip"
     >
-      <div className="min-w-0 lg:col-span-6">
-        <h1 id="hero-heading" className="text-display font-semibold">
-          <span className="hero-line">
-            <span className="enter-line" style={i(0)}>
-              Hi, I&rsquo;m
-            </span>
-          </span>
-          <span className="hero-line">
-            <span className="enter-line" style={i(1)}>
-              Quincy.
-            </span>
-          </span>
-        </h1>
-
-        <p
-          className="enter-fade mt-8 max-w-[34ch] text-lead text-muted"
-          style={i(3)}
-        >
-          Senior frontend engineer. I build fintech and consumer products that
-          feel good to use. Currently at iKhokha. Based in Accra.
-        </p>
-
-        <div
-          className="enter-fade mt-10 flex flex-wrap items-center gap-x-6 gap-y-4"
-          style={i(4)}
-        >
-          <Magnetic>
-            <Button asChild size="lg" className="group">
-              <a href="#contact">
-                Get in touch
-                <span className="grid size-8 place-items-center rounded-full bg-bg/15 transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5">
-                  <ArrowRight size={16} aria-hidden />
-                </span>
-              </a>
-            </Button>
-          </Magnetic>
-          <Link
-            href="/work"
-            className="rounded-sm text-small font-medium text-muted underline decoration-line-strong underline-offset-[6px] transition-colors duration-200 hover:text-fg hover:decoration-accent"
-          >
-            View all work
-          </Link>
+      {/* The field sinks away as the page scrolls (CSS scroll timeline). */}
+      <div aria-hidden className="hero-sink absolute inset-0 -z-10">
+        <div className="enter-field absolute inset-0 mask-[linear-gradient(to_bottom,black_60%,transparent_98%)]">
+          <MoltenField center={[0.7, 0.44]} radius={1.05} />
         </div>
       </div>
 
-      <div className="min-w-0 lg:col-span-6 lg:pl-6 xl:pl-10">
-        {/* Drifts slightly slower than the page as the hero scrolls away (CSS scroll timeline). */}
-        <div className="hero-drift">
-          <ProjectDeck projects={featuredProjects} />
+      <div className="mx-auto flex w-full max-w-360 flex-1 flex-col px-4 pb-4 pt-28 sm:px-6 md:pb-6 md:pt-32 lg:px-10">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:items-end">
+          <p
+            className="enter-fade max-w-[30ch] text-lead text-muted md:col-span-7 lg:col-span-5"
+            style={i(6)}
+          >
+            Senior frontend engineer building fintech and consumer products
+            that feel good to use. Currently at iKhokha, based in Accra.
+          </p>
+
+          <div
+            className="enter-fade flex flex-wrap items-center gap-x-6 gap-y-4 md:col-span-5 md:justify-end lg:col-span-4 lg:col-start-9"
+            style={i(7)}
+          >
+            <Magnetic>
+              <Button asChild size="lg" className="group">
+                <a href="#contact">
+                  Get in touch
+                  <span className="grid size-8 place-items-center rounded-full bg-bg/15 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-rotate-45">
+                    <ArrowRight size={16} aria-hidden />
+                  </span>
+                </a>
+              </Button>
+            </Magnetic>
+            <a
+              href="#work"
+              className="rounded-sm text-small font-medium text-fg underline decoration-fg/30 underline-offset-[6px] transition-colors duration-200 hover:decoration-fg"
+            >
+              Selected work
+            </a>
+          </div>
         </div>
+
+        <h1
+          id="hero-heading"
+          className="hero-recede mt-auto origin-bottom-left pt-16 font-display text-[min(17.5vw,27svh)] leading-[0.86] md:text-[min(15vw,27svh)] tracking-[-0.045em] text-fg"
+        >
+          <span className="sr-only">Quincy Hutchison, senior frontend engineer</span>
+          <KineticName
+            lines={[{ text: "Quincy" }, { text: "Hutchison", className: "text-right" }]}
+          />
+        </h1>
       </div>
     </section>
   );

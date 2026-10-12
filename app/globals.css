@@ -3,22 +3,35 @@
 /*
  * Design tokens.
  * One neutral family (zinc-leaning, cool) plus a single signal-orange accent.
+ * The "field" colours drive the WebGL molten field and are the accent's
+ * own ramp, so the hero never introduces a second hue.
  * Light is the default; dark applies from the OS preference unless the visitor
  * picked a theme (stored as data-theme on <html>).
+ *
+ * Shape system: containers are 2rem squircles with a nested core
+ * (2rem - shell padding), media inside them is rounded-xl, every
+ * interactive control is a full pill.
+ *
+ * Z-index scale: nav 40, grain 50, intro 60, skip link 70.
  */
 :root {
   color-scheme: light;
-  --bg: #fafafa;
-  --surface: #f0f0f1;
-  --surface-strong: #e6e6e8;
-  --fg: #18181b;
-  --muted: #52525b;
-  --subtle: #67676f;
-  --line: rgb(24 24 27 / 0.1);
-  --line-strong: rgb(24 24 27 / 0.18);
+  --bg: #f7f7f8;
+  --surface: #ededef;
+  --surface-strong: #e3e3e6;
+  --fg: #141416;
+  --muted: #4f4f57;
+  --subtle: #64646c;
+  --line: rgb(20 20 22 / 0.1);
+  --line-strong: rgb(20 20 22 / 0.18);
   --accent: #c2410c;
   --accent-soft: rgb(194 65 12 / 0.12);
+  --on-accent: #fff7f2;
   --shadow: 220 10% 20%;
+  --field-deep: #ffd9c4;
+  --field-mid: #f4651f;
+  --field-hot: #9a2c06;
+  --grain-opacity: 0.05;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -28,33 +41,43 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #0b0b0c;
-    --surface: #151517;
-    --surface-strong: #1e1e21;
-    --fg: #ededee;
-    --muted: #a1a1aa;
-    --subtle: #8e8e97;
-    --line: rgb(255 255 255 / 0.09);
+    --bg: #0a0a0b;
+    --surface: #141416;
+    --surface-strong: #1d1d20;
+    --fg: #efefef;
+    --muted: #a3a3ab;
+    --subtle: #8b8b94;
+    --line: rgb(255 255 255 / 0.08);
     --line-strong: rgb(255 255 255 / 0.16);
     --accent: #ff8a4c;
     --accent-soft: rgb(255 138 76 / 0.14);
+    --on-accent: #160803;
     --shadow: 0 0% 0%;
+    --field-deep: #4a1405;
+    --field-mid: #ff6a2a;
+    --field-hot: #ffd6b8;
+    --grain-opacity: 0.045;
   }
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0b0b0c;
-  --surface: #151517;
-  --surface-strong: #1e1e21;
-  --fg: #ededee;
-  --muted: #a1a1aa;
-  --subtle: #8e8e97;
-  --line: rgb(255 255 255 / 0.09);
+  --bg: #0a0a0b;
+  --surface: #141416;
+  --surface-strong: #1d1d20;
+  --fg: #efefef;
+  --muted: #a3a3ab;
+  --subtle: #8b8b94;
+  --line: rgb(255 255 255 / 0.08);
   --line-strong: rgb(255 255 255 / 0.16);
   --accent: #ff8a4c;
   --accent-soft: rgb(255 138 76 / 0.14);
+  --on-accent: #160803;
   --shadow: 0 0% 0%;
+  --field-deep: #4a1405;
+  --field-mid: #ff6a2a;
+  --field-hot: #ffd6b8;
+  --grain-opacity: 0.045;
 }
 
 @theme inline {
@@ -68,21 +91,23 @@
   --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
 
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-archivo), var(--font-geist-sans), system-ui, sans-serif;
 
   /* Type scale: fluid display sizes, fixed text sizes. Tracking tightens as size grows. */
   --text-display: clamp(3rem, 1.4rem + 6.4vw, 6.75rem);
   --text-display--line-height: 0.94;
   --text-display--letter-spacing: -0.045em;
-  --text-h2: clamp(2.125rem, 1.5rem + 2.6vw, 3.75rem);
-  --text-h2--line-height: 1;
-  --text-h2--letter-spacing: -0.035em;
-  --text-h3: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
-  --text-h3--line-height: 1.15;
-  --text-h3--letter-spacing: -0.022em;
-  --text-lead: clamp(1.25rem, 1.05rem + 0.9vw, 1.875rem);
+  --text-h2: clamp(2.75rem, 1.3rem + 5.4vw, 7.25rem);
+  --text-h2--line-height: 0.92;
+  --text-h2--letter-spacing: -0.045em;
+  --text-h3: clamp(1.5rem, 1.25rem + 0.9vw, 2.125rem);
+  --text-h3--line-height: 1.08;
+  --text-h3--letter-spacing: -0.03em;
+  --text-lead: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
   --text-lead--line-height: 1.32;
   --text-lead--letter-spacing: -0.018em;
   --text-body: 1.0625rem;
@@ -100,7 +125,7 @@
 
 html {
   background: var(--bg);
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 6rem;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -116,7 +141,7 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: var(--bg);
+  color: var(--on-accent);
 }
 
 :focus-visible {
@@ -135,24 +160,139 @@ p {
   text-wrap: pretty;
 }
 
+/* Display face: Archivo, slightly expanded. Width is a variable axis, so the
+   hero can push it further per letter. */
+.font-display {
+  font-stretch: 112%;
+}
+
 /* ------------------------------------------------------------------
- * Hero entrance. Pure CSS so it starts on first paint, never depends
- * on hydration, and the content is already in the HTML if CSS is slow.
+ * Smooth scroll (Lenis). Native scroll stays the source of truth, so
+ * CSS scroll timelines and position: sticky keep working underneath.
  * ------------------------------------------------------------------ */
-
-.hero-line {
-  display: block;
+html.lenis,
+html.lenis body {
+  height: auto;
 }
 
-.hero-line > span {
-  display: inline-block;
+html.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
 
-/*
- * Hero entrances never start at opacity 0: text and images are painted from
- * the first frame (so they count as rendered content immediately) and resolve
- * from a soft blur and a small offset instead.
- */
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* ------------------------------------------------------------------
+ * Film grain. One fixed, non-interactive layer: it never repaints on
+ * scroll, which is the only way grain stays cheap on phones.
+ * ------------------------------------------------------------------ */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ------------------------------------------------------------------
+ * Intro. Plays once per session on the home page, decided by an inline
+ * script before first paint (html[data-intro="play"]). Pure CSS: the
+ * page underneath is already rendered, the panel just lifts off it.
+ * ------------------------------------------------------------------ */
+@property --count {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+.intro {
+  display: none;
+}
+
+@keyframes intro-count {
+  to {
+    --count: 100;
+  }
+}
+
+@keyframes intro-bar {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes intro-lift {
+  to {
+    clip-path: inset(0 0 100% 0 round 0 0 50% 50%);
+  }
+}
+
+@keyframes intro-name {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+@keyframes intro-leave {
+  to {
+    transform: translateY(-40%);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html[data-intro="play"] .intro {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    background: var(--bg);
+    clip-path: inset(0 0 0 0 round 0);
+    animation: intro-lift 900ms var(--ease-in-out) 1250ms forwards;
+  }
+
+  html[data-intro="play"] .intro-count {
+    counter-reset: count var(--count);
+    animation:
+      intro-count 1100ms var(--ease-in-out) 80ms forwards,
+      intro-leave 500ms var(--ease-in-out) 1200ms forwards;
+  }
+
+  html[data-intro="play"] .intro-count::after {
+    content: counter(count);
+  }
+
+  html[data-intro="play"] .intro-bar {
+    transform-origin: left;
+    animation: intro-bar 1100ms var(--ease-in-out) 80ms both;
+  }
+
+  html[data-intro="play"] .intro-name > span {
+    animation:
+      intro-name 800ms var(--ease-out) 120ms both,
+      intro-leave 500ms var(--ease-in-out) 1150ms forwards;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Hero entrance. Pure CSS so it starts on first paint and never depends
+ * on hydration. When the intro plays, every delay shifts by its length.
+ * ------------------------------------------------------------------ */
+:root {
+  --intro-offset: 0ms;
+}
+
+html[data-intro="play"] {
+  --intro-offset: 1450ms;
+}
+
 @keyframes rise-in {
   from {
     transform: translateY(0.32em);
@@ -162,22 +302,22 @@ p {
 
 @keyframes fade-up {
   from {
-    transform: translateY(12px);
-    filter: blur(6px);
+    transform: translateY(14px);
+    filter: blur(8px);
+    opacity: 0;
   }
 }
 
-@keyframes deal-in {
+@keyframes letter-rise {
   from {
-    transform: translate3d(0, 64px, 0) rotate(var(--deal-rotate, 0deg)) scale(0.96);
+    transform: translate3d(0, 108%, 0) rotate(7deg);
   }
 }
 
-@keyframes caption-in {
+@keyframes field-in {
   from {
     opacity: 0;
-    filter: blur(2px);
-    transform: translateY(4px);
+    transform: scale(1.08);
   }
 }
 
@@ -188,6 +328,26 @@ p {
   }
 }
 
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* A line of the hero name: clips the rising letters, with room for descenders. */
+.kn-line {
+  display: block;
+  overflow: clip;
+  overflow-clip-margin: 0.04em;
+  padding-bottom: 0.06em;
+}
+
+.kn-l {
+  display: inline-block;
+  font-variation-settings: "wght" 820, "wdth" 100;
+  will-change: font-variation-settings;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
@@ -195,21 +355,22 @@ p {
 
   .enter-line {
     animation: rise-in 1000ms var(--ease-out) both;
-    animation-delay: calc(var(--i, 0) * 90ms + 60ms);
+    animation-delay: calc(var(--i, 0) * 90ms + 60ms + var(--intro-offset));
   }
 
   .enter-fade {
-    animation: fade-up 800ms var(--ease-out) both;
-    animation-delay: calc(var(--i, 0) * 90ms + 60ms);
+    animation: fade-up 900ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 90ms + 60ms + var(--intro-offset));
   }
 
-  .enter-deal {
-    animation: deal-in 1100ms var(--ease-out) both;
-    animation-delay: calc(var(--i, 0) * 70ms + 220ms);
+  .enter-letter {
+    animation: letter-rise 1100ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 45ms + 80ms + var(--intro-offset));
   }
 
-  .caption-swap {
-    animation: caption-in 260ms var(--ease-out) both;
+  .enter-field {
+    animation: field-in 2200ms var(--ease-out) both;
+    animation-delay: calc(200ms + var(--intro-offset));
   }
 
   .page-in {
@@ -217,17 +378,9 @@ p {
   }
 }
 
-/* Reduced motion: no movement, only a quick, quiet cross-fade where it helps. */
 @media (prefers-reduced-motion: reduce) {
-  .caption-swap,
   .page-in {
     animation: fade 180ms ease both;
-  }
-}
-
-@keyframes fade {
-  from {
-    opacity: 0;
   }
 }
 
@@ -236,11 +389,18 @@ p {
  * thread; browsers without support (or with reduced motion) just show
  * the content, so nothing is ever stuck hidden.
  * ------------------------------------------------------------------ */
-
 @keyframes reveal {
   from {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(56px);
+    filter: blur(8px);
+  }
+}
+
+@keyframes reveal-scale {
+  from {
+    opacity: 0;
+    transform: translateY(80px) scale(0.94);
   }
 }
 
@@ -255,13 +415,19 @@ p {
     .reveal {
       animation: reveal var(--ease-out) both;
       animation-timeline: view();
-      animation-range: entry 0% entry 70%;
+      animation-range: entry 0% entry 80%;
     }
 
     .reveal-late {
       animation: reveal var(--ease-out) both;
       animation-timeline: view();
-      animation-range: entry 20% cover 30%;
+      animation-range: entry 20% cover 32%;
+    }
+
+    .reveal-card {
+      animation: reveal-scale var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
     }
 
     .settle {
@@ -272,48 +438,118 @@ p {
   }
 }
 
-/* Scroll-timeline effects tied to the page scroll position. */
-@keyframes drift {
+/* Hero exit: the name and the field drift back as the page moves on. */
+@keyframes hero-recede {
   to {
-    transform: translateY(90px) scale(0.96);
+    transform: translateY(18vh) scale(0.94);
+    opacity: 0.2;
   }
 }
 
-@keyframes material-in {
-  from {
+@keyframes hero-sink {
+  to {
+    transform: translateY(26vh);
     opacity: 0;
-    border-color: transparent;
+  }
+}
+
+/* Empty until a scroll timeline drives it, so short pages show nothing. */
+.scroll-progress {
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: scroll()) {
-    .hero-drift {
-      animation: drift linear both;
+    .hero-recede {
+      animation: hero-recede linear both;
       animation-timeline: scroll(root);
-      animation-range: 0 700px;
+      animation-range: 0 100vh;
+    }
+
+    .hero-sink {
+      animation: hero-sink linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80vh;
+    }
+
+    .scroll-progress {
+      animation: progress linear both;
+      animation-timeline: scroll(root);
     }
   }
 }
 
-/* The nav's frosted material fades in once content scrolls beneath it.
-   Without scroll-timeline support it is simply always present. */
-@supports (animation-timeline: scroll()) {
-  .nav-material {
-    animation: material-in linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0 24px;
+/* ------------------------------------------------------------------
+ * Contact curtain. The footer is fixed beneath the page inside a
+ * clipped shell, so the last section lifts off it like a curtain.
+ * Short viewports keep it in normal flow so nothing gets cut off.
+ * ------------------------------------------------------------------ */
+.curtain-body {
+  position: relative;
+}
+
+@media (min-height: 640px) {
+  .curtain {
+    height: 100svh;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    view-timeline-name: --curtain;
+  }
+
+  .curtain-body {
+    position: fixed;
+    inset: auto 0 0 0;
+    height: 100svh;
+  }
+}
+
+@keyframes curtain-rise {
+  from {
+    transform: translateY(-22vh) scale(0.96);
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-height: 640px) {
+  @supports (animation-timeline: view()) {
+    .curtain-rise {
+      animation: curtain-rise linear both;
+      animation-timeline: --curtain;
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
+
+/* The clock's colon keeps time, quietly. */
+@keyframes blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .clock-colon {
+    animation: blink 2s steps(1, end) infinite;
   }
 }
 
 /* Hover motion only where hover is real. */
 @media (hover: hover) and (pointer: fine) {
   .lift-on-hover .lift-target {
-    transition: transform 300ms var(--ease-out);
+    transition: transform 500ms var(--ease-out);
   }
 
   .lift-on-hover:hover .lift-target {
-    transform: translateY(-6px);
+    transform: translateY(-8px) scale(1.01);
   }
 
   .nudge-on-hover .nudge-target {
@@ -333,9 +569,14 @@ p {
   }
 }
 
-/* Theme switch: a short cross-fade instead of an abrupt brightness jump. */
+/* Theme switch: the new theme grows out of the toggle as a circle
+   (driven from ThemeToggle), so the default cross-fade is switched off. */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 260ms;
-  animation-timing-function: ease;
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  z-index: 1;
 }
