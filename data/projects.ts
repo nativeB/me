@@ -161,7 +161,7 @@ export const projects: Project[] = [
   {
     id: "deal-gatekeeper",
     title: "Deal Gatekeeper",
-    tagline: "Kente HQ. Escrow for creator–sponsor deals.",
+    tagline: "Kente HQ. Escrow for deals between creators and sponsors.",
     description:
       "Sponsors fund a deal up front, creators upload work to a watermarked preview, and payment releases only on approval. Payments and payouts run through Paystack, with private uploads on Cloudflare R2.",
     stack: ["Next.js", "TypeScript", "Prisma", "Paystack", "Cloudflare R2"],
