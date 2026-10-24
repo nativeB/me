@@ -19,11 +19,21 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="mx-auto flex w-full max-w-360 flex-1 flex-col px-4 pb-4 pt-28 sm:px-6 md:pb-6 md:pt-32 lg:px-10">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:items-end">
+      <div className="mx-auto flex w-full max-w-360 flex-1 flex-col px-4 pb-8 pt-24 sm:px-6 md:pb-10 md:pt-28 lg:px-10">
+        <h1
+          id="hero-heading"
+          className="hero-recede origin-top-left font-display text-[min(17.5vw,27svh)] leading-[0.86] tracking-[-0.045em] text-fg md:text-[min(15vw,27svh)]"
+        >
+          <span className="sr-only">Quincy Hutchison, senior frontend engineer</span>
+          <KineticName
+            lines={[{ text: "Quincy" }, { text: "Hutchison", className: "text-right" }]}
+          />
+        </h1>
+
+        <div className="mt-auto grid grid-cols-1 gap-8 pt-16 md:grid-cols-12 md:items-end">
           <p
             className="enter-fade max-w-[30ch] text-lead text-muted md:col-span-7 lg:col-span-5"
-            style={i(6)}
+            style={i(9)}
           >
             Senior frontend engineer building fintech and consumer products
             that feel good to use. Currently at iKhokha, based in Accra.
@@ -31,7 +41,7 @@ export default function HeroSection() {
 
           <div
             className="enter-fade flex flex-wrap items-center gap-x-6 gap-y-4 md:col-span-5 md:justify-end lg:col-span-4 lg:col-start-9"
-            style={i(7)}
+            style={i(10)}
           >
             <Magnetic>
               <Button asChild size="lg" className="group">
@@ -51,16 +61,6 @@ export default function HeroSection() {
             </a>
           </div>
         </div>
-
-        <h1
-          id="hero-heading"
-          className="hero-recede mt-auto origin-bottom-left pt-16 font-display text-[min(17.5vw,27svh)] leading-[0.86] md:text-[min(15vw,27svh)] tracking-[-0.045em] text-fg"
-        >
-          <span className="sr-only">Quincy Hutchison, senior frontend engineer</span>
-          <KineticName
-            lines={[{ text: "Quincy" }, { text: "Hutchison", className: "text-right" }]}
-          />
-        </h1>
       </div>
     </section>
   );
